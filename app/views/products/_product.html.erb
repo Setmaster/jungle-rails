@@ -1,15 +1,23 @@
 <article>
   <%= link_to product_path(product) do %>
-    <%= image_tag product.image.thumb.url , alt: product.name %>
+    <%= image_tag product.image.thumb.url, alt: product.name %>
     <h1>
       <span><%= product.name %></span>
       <span><%= humanized_money_with_symbol product.price %></span>
     </h1>
-  <% end%>
+  <% end %>
+
   <div>
-    <%= button_to add_item_cart_path(product_id: product.id), class: 'btn' ,
-    method: :post do %>
-      <%= fa_icon "shopping-cart", text: 'Add' %> 
+    <% if product.quantity.zero? %>
+      <span class="badge bg-danger text-white d-flex align-items-center justify-content-center">Sold Out</span>
+      <%= button_to '#', class: 'btn btn-secondary', disabled: true do %>
+        <%= fa_icon "shopping-cart", text: 'Add' %>
+      <% end %>
+    <% else %>
+      <%= button_to add_item_cart_path(product_id: product.id), class: 'btn',
+                    method: :post do %>
+        <%= fa_icon "shopping-cart", text: 'Add' %>
+      <% end %>
     <% end %>
   </div>
 </article>
